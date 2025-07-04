@@ -46,14 +46,29 @@ const userSchema = new mongoose.Schema(
             maxLength: 160,
         },
 
+        location: {
+            type: String,
+            default: "",
+        },
 
+        followers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }
+        ],
 
-
-
-
-
-
+        following: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            }
+        ],
     },
     // Timestamps: true allows the user to get the most updated fields automatically
     { timestamps: true}
-)
+);
+
+const User = mongoose.model("User", userSchema);
+
+export default User;
