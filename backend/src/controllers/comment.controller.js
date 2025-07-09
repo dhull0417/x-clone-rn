@@ -32,17 +32,28 @@ export const createComment = asyncHandler(async (req, res) => {
         return res.status(400).json({ error: "User or post not found"});
     }
 
-    const comment = await Comment.create({
-        user: user._id,
-        post: postId,
-        content
-    });
+    const session = await mongoose.startSession();
+    let comment;
 
-    // link the comment to the post
+    try {
+        await session.withtransaction(async () => {
+            comment = await Comment.create({
+                user: user._id,
+                post: postId,
+                content
+            }, {session});
 
-    await Post.findByIdAndUpdate(postId, {
-        $push: { comments: comment._id},
-    });
+        // link the comment to the post
+        await Post.findByIdAndUpdate(postId, {
+        $push: { comments: comment._id },
+            }, { session });
+        });
+
+    } finally {
+        await session.endSession();
+    }
+
+    
 
     if (post.user.toString() !== user._id.toString()) {
         await Notification.create({
@@ -76,6 +87,9 @@ export const deleteComment = asyncHandler(async (req, res) => {
     await Post.findByIdAndUpdate(comment.post, {
         $pull: { comments: commentId },
     });
+
+    // Remove related notifications
+    await Notification.deleteMany({ comment: commentId });
 
     // delete comment
     await Comment.findByIdAndDelete(commentId);
