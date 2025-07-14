@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/profile/:username", getUserProfile);
 
 //PROTECTED ROUTES
-// check authentication and then creat user in mongodb from clerk user data
+// check authentication and then create user in mongodb from clerk user data
 router.post("/sync", protectRoute, syncUser);
 
 // Get the current user (essentially, clicking on your own user profile rather than searching for a user profile)
