@@ -13,7 +13,7 @@ export const useSignOut = () => {
                 onPress: async () => {
                     try {
                         await signOut();
-                    } catch (e) {
+                    } catch (err) {
                         Alert.alert("Error", "Failed to sign out. Please try again.");
                     }
                 },
