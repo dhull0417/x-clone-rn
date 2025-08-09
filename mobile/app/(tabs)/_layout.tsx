@@ -7,8 +7,8 @@ import { useAuth } from '@clerk/clerk-expo'
 const TabsLayout = () => {
 const insets = useSafeAreaInsets(); // So tab bar isn't covered by action bar or other phone provider unique feature(i.e. "safe area")
 
-const { isSignedIn } = useAuth();
-
+const { isLoaded, isSignedIn } = useAuth();
+if (!isLoaded) return null;
 if (!isSignedIn) return <Redirect href="/(auth)" />;
 
   return (

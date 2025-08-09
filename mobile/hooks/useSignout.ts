@@ -10,7 +10,13 @@ export const useSignOut = () => {
             {
                 text: "Logout",
                 style: "destructive",
-                onPress: () => signOut(),
+                onPress: async () => {
+                    try {
+                        await signOut();
+                    } catch (e) {
+                        Alert.alert("Error", "Failed to sign out. Please try again.");
+                    }
+                },
             },
         ]);
     };
