@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-// import {clerkMiddleware} from "@clerk/express";
+import {clerkMiddleware} from "@clerk/express";
 
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
@@ -18,7 +18,7 @@ app.use(cors());
 // below is for access to the request.body
 app.use(express.json());
 // Below is for authentication
-// app.use(clerkMiddleware());
+app.use(clerkMiddleware());
 // () means you are calling the function. We don't want to call the middleware because it's custom and we created it (unlike the middleware above)
 app.use(arcjetMiddleware)
 
