@@ -20,7 +20,11 @@ const PostComposer = () => {
   return (
     <View className="border-b border-gray-100 p-4 bg-white">
       <View className="flex-row">
-        <Image source={{ uri: user?.imageUrl }} className="w-12 h-12 rounded-full mr-3" />
+        {user?.imageUrl ? (
+          <Image source={{ uri: user.imageUrl }} className="w-12 h-12 rounded-full mr-3" />
+        ) : (
+          <View className="w-12 h-12 rounded-full mr-3 bg-gray-200" />
+        )}
         <View className="flex-1">
           <TextInput
             className="text-gray-900 text-lg"
